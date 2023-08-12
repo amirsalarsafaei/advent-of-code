@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	fileBytes, err := os.ReadFile("./day1/input.txt")
+	fileBytes, err := os.ReadFile("./day01/input.txt")
 	if err != nil {
 		panic(err)
 	}
