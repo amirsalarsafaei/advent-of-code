@@ -27,14 +27,6 @@ func main() {
 	fmt.Println(sum)
 }
 
-func isDigit(r rune) bool {
-	return '0' <= r && r <= '9'
-}
-
-func toDigit(r rune) int {
-	return int(r - '0')
-}
-
 func getStringCalibrationValue(line string) (int, error) {
 	firstDigitCharIdx := strings.IndexFunc(line, isDigit)
 	lastDigitCharIdx := strings.LastIndexFunc(line, isDigit)
@@ -75,4 +67,12 @@ func getStringCalibrationValue(line string) (int, error) {
 	}
 
 	return 10*firstDigit + lastDigit, nil
+}
+
+func isDigit(r rune) bool {
+	return '0' <= r && r <= '9'
+}
+
+func toDigit(r rune) int {
+	return int(r - '0')
 }
