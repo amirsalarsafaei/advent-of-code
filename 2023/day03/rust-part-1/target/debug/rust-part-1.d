@@ -1,0 +1,1 @@
+/Users/divar/advent-of-code/2023/day03/rust-part-1/target/debug/rust-part-1: /Users/divar/advent-of-code/2023/day03/rust-part-1/input.txt /Users/divar/advent-of-code/2023/day03/rust-part-1/src/main.rs
