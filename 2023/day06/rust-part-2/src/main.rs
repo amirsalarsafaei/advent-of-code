@@ -22,7 +22,6 @@ fn main() {
 
 }
 
-
 fn line_to_i64(a: &str) -> i64 {
     let mut res = String::new();
     a.split_once(":").unwrap().1.chars().filter(|&a| a != ' ').
