@@ -6,7 +6,7 @@ fn is_digit(ch: char) -> bool {
 
 
 fn main() {
-    let input = include_str!("../../rust-part-2/input.txt");
+    let input = include_str!("../input.txt");
     let lines = input.split('\n');
     let n = lines.clone().collect::<Vec<_>>().len();
     let m = lines.clone().last().expect("cant be empty").len();
