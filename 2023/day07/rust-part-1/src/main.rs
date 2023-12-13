@@ -8,6 +8,7 @@ use crate::HandType::*;
 enum HandType {
     FiveOfAKind,
     FourOfAKind,
+    FullHouse,
     ThreeOfAKind,
     TwoPair,
     OnePair,
@@ -15,7 +16,8 @@ enum HandType {
 }
 
 impl HandType {
-    const VALUES: [Self; 6] = [HighCard, OnePair, TwoPair, ThreeOfAKind, FourOfAKind, FiveOfAKind];
+    const VALUES: [Self; 7] =
+        [HighCard, OnePair, TwoPair, ThreeOfAKind, FullHouse, FourOfAKind, FiveOfAKind];
     fn get_priority(&self) -> usize {
         return Self::VALUES.iter().position(|a| a == self).unwrap();
     }
@@ -25,13 +27,12 @@ const CARD_ORDER: [u8; 13] = [
     b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b'T', b'J', b'Q', b'K', b'A'
 ];
 
-#[derive(Debug)]
-struct Hand<'a> {
-    cards: &'a [u8],
+struct Hand {
+    cards:  Vec<u8>,
     bid: i64,
 }
 
-impl Hand<'_> {
+impl Hand {
     fn hand_type(&self) -> HandType {
         let mut card_cnt: HashMap<&u8, i64> = HashMap::new();
         self.cards.iter().for_each(|card| {
@@ -42,20 +43,25 @@ impl Hand<'_> {
             }
             card_cnt.insert(card, cnt);
         });
-        let max_cnt = card_cnt.iter().max_by(|x, y| x.1.cmp(y.1)).unwrap();
-
-        if *max_cnt.1 > 2i64 {
-            return if *max_cnt.1 == 3i64 {
-                ThreeOfAKind
-            } else if *max_cnt.1 == 4i64 {
+        let max_cnt = card_cnt.clone().into_iter().
+            max_by(|x, y| x.1.cmp(&y.1)).unwrap();
+        card_cnt.remove(max_cnt.0);
+        if max_cnt.1 > 2i64 {
+            return if max_cnt.1 == 3i64 {
+                if card_cnt.iter().any(|(x, y)| *y == 2i64) {
+                    FullHouse
+                } else {
+                    ThreeOfAKind
+                }
+            } else if max_cnt.1 == 4i64 {
                 FourOfAKind
             } else {
                 FiveOfAKind
             };
         }
 
-        if *max_cnt.1 == 2i64 {
-            if card_cnt.iter().filter(|x| *x.1 == 2).size_hint().1.unwrap() == 2usize {
+        if max_cnt.1 == 2i64 {
+            if card_cnt.iter().any(|x| *x.1 == 2) {
                 return TwoPair;
             }
             return OnePair;
@@ -65,20 +71,18 @@ impl Hand<'_> {
     }
 }
 
-
 fn main() {
     let input = include_str!("../input.txt");
     let mut hands: Vec<_> = input.split("\n").map(|hand_str| {
         let (cards_str, bid_str) = hand_str.split_once(' ').unwrap();
         return Hand {
-            cards: cards_str.as_bytes(),
+            cards: cards_str.as_bytes().to_vec(),
             bid: atoi(bid_str.as_bytes()).unwrap(),
         };
     }).collect();
 
     hands.sort_by(hands_cmp);
 
-    println!("{:?}", hands);
 
     println!("{:?}", hands.iter().enumerate().map(|(i, hand)| (i + 1) as i64 * hand.bid)
         .reduce(|x, y| x + y).unwrap())
