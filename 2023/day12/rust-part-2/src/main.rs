@@ -97,7 +97,6 @@ fn main() {
                 }
             }
             let res = dp.last().unwrap().last().unwrap();
-            println!("{:?}", res);
             return res[0] + res[1];
         }
     )
