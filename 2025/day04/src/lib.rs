@@ -1,5 +1,3 @@
-use std::error::Error;
-
 pub enum InputType {
     Sample,
     Test,
@@ -29,4 +27,3 @@ pub fn get_paper_grid(input_type: InputType) -> Result<Vec<Vec<GridCell>>, Strin
         }).collect::<Result<Vec<GridCell>, String>>()
     }).collect::<Result<Vec<Vec<GridCell>>, String>>()
 }
-
