@@ -1,6 +1,6 @@
-use day06::{get_worksheet, InputType, Operation};
+use day06::{get_worksheet, InputType, Operation, InputMode};
 fn main() {
-    let worksheet = get_worksheet(InputType::Test)
+    let worksheet = get_worksheet(InputType::Test, InputMode::Part1)
         .expect("read worksheet failed");
 
 
