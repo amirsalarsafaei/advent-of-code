@@ -13,6 +13,5 @@ fn main() {
     });
 
 
-
     println!("Reached zero count: {}", reached_zero_cnt);
 }

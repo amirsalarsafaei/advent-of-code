@@ -1,8 +1,8 @@
 [package]
-name = "utils"
+name = "day09"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 itertools = "0.14.0"
-
+utils = { path = "../rust-utils" }
